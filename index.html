@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZENTORA | جهان بازی‌ها</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090d19;color:#f4f5ff;font-family:Tahoma,Arial,sans-serif}
+header{padding:20px 6%;display:flex;justify-content:space-between;align-items:center;background:#10172a;border-bottom:1px solid #293653;position:sticky;top:0;z-index:5}
+.logo{font-size:25px;font-weight:bold;color:#9d8cff}
+nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+a{color:#dce1ff;text-decoration:none}
+button,.btn{border:0;border-radius:12px;padding:12px 17px;background:#765cff;color:white;font-weight:bold;cursor:pointer}
+select,input,textarea{background:#151e33;color:white;border:1px solid #344362;border-radius:10px;padding:12px;width:100%;margin:7px 0}
+.hero{padding:65px 7%;text-align:center;background:radial-gradient(ellipse at top,#34236e,#11172c 65%,#090d19)}
+.hero h1{font-size:clamp(35px,7vw,65px);margin:10px;color:white}
+.hero h1 span{color:#a995ff}
+.hero p{color:#c4c9e2;line-height:2}
+.container{max-width:1150px;margin:auto;padding:30px 18px}
+.section-title{font-size:25px;margin-bottom:20px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.tools input{flex:1;min-width:180px}
+.tools select{width:auto;min-width:140px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{background:#151e33;border:1px solid #2b3857;border-radius:18px;overflow:hidden}
+.cover{height:145px;display:grid;place-items:center;font-size:65px;background:linear-gradient(135deg,#29265c,#174d69)}
+.card-content{padding:16px}
+.card p{color:#b9c2dc;line-height:1.8;font-size:13px}
+.tag{font-size:12px;color:#b6a9ff}
+.panel{background:#151e33;border:1px solid #344362;border-radius:18px;padding:22px;margin-top:35px}
+.panel h2{margin-top:0}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+footer{text-align:center;color:#9da9c8;padding:35px;border-top:1px solid #293653;margin-top:45px}
+#notice{color:#a995ff;margin-top:12px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">🌌 ZENTORA</div>
+<nav>
+<a href="#games">بازی‌ها</a>
+<a href="#publish">معرفی بازی</a>
+<a href="#about">درباره ما</a>
+</nav>
+</header>
+
+<section class="hero">
+<div>🚀 به جهان جدید بازی‌ها خوش آمدی</div>
+<h1>جهان خودت را در <span>ZENTORA</span> کشف کن!</h1>
+<p>بازی‌های تازه را کشف کن، ایده‌هایت را به اشتراک بگذار و دنیای بازی خودت را بساز.</p>
+<a class="btn" href="#games">کشف بازی‌ها 🎮</a>
+</section>
+
+<main class="container">
+<section id="games">
+<h2 class="section-title">🎮 دنیای بازی‌ها</h2>
+<div class="tools">
+<input id="search" placeholder="جست‌وجوی بازی..." oninput="renderGames()">
+<select id="category" onchange="renderGames()">
+<option value="all">همه دسته‌ها</option>
+<option value="ماجراجویی">ماجراجویی</option>
+<option value="ساخت‌وساز">ساخت‌وساز</option>
+<option value="اکشن">اکشن</option>
+<option value="معمایی">معمایی</option>
+</select>
+</div>
+<div class="games" id="gamesList"></div>
+</section>
+
+<section class="panel" id="publish">
+<h2>✨ معرفی بازی جدید</h2>
+<p>بازی یا تجربه خودت را به جامعه ZENTORA معرفی کن.</p>
+<div class="form-grid">
+<input id="gameName" placeholder="نام بازی">
+<input id="creator" placeholder="نام سازنده">
+<select id="gameCategory">
+<option>ماجراجویی</option>
+<option>ساخت‌وساز</option>
+<option>اکشن</option>
+<option>معمایی</option>
+</select>
+<input id="gameLink" placeholder="لینک بازی (اختیاری)">
+</div>
+<textarea id="gameDesc" rows="3" placeholder="توضیحات بازی"></textarea>
+<button onclick="addGame()">ثبت معرفی بازی</button>
+<div id="notice"></div>
+</section>
+
+<section class="panel" id="about">
+<h2>🌍 درباره ZENTORA</h2>
+<p>اینجا جایی برای کشف بازی‌ها، معرفی ایده‌های خلاقانه و آشنایی با سازندگان از سراسر دنیاست.</p>
+<p>هدف ما ساخت یک جامعه مستقل برای دوستداران بازی است.</p>
+<label for="language">🌐 انتخاب زبان</label>
+<select id="language" onchange="changeLanguage()"></select>
+<p id="languageInfo">زبان فعلی رابط: فارسی</p>
+</section>
+</main>
+
+<footer>
+<strong>ZENTORA</strong>
+<p>فراتر از دنیای بازی‌ها! 🌌</p>
+<p>© 2026 ZENTORA</p>
+</footer>
+
+<script>
+const languages = [
+"فارسی","English","العربية","Türkçe","Deutsch","Français","Español","Português","Русский","中文","日本語","한국어","हिन्दी","اردو","Italiano","Nederlands","Polski","Українська","Ελληνικά","עברית","বাংলা","ไทย","Tiếng Việt","Bahasa Indonesia","Bahasa Melayu","Filipino","فارسی افغانستان","پشتو","کوردی","Svenska","Norsk","Dansk","Suomi","Íslenska","Čeština","Slovenčina","Magyar","Română","Български","Српски","Hrvatski","Slovenščina","Shqip","Македонски","ქართული","Հայերեն","Azərbaycanca","Қазақша","O‘zbekcha","Türkmençe","Кыргызча","Монгол","नेपाली","සිංහල","தமிழ்","తెలుగు","ಕನ್ನಡ","മലയാളം","मराठी","ગુજરાતી","ਪੰਜਾਬੀ","অসমীয়া","မြန်မာ","ខ្មែរ","ລາວ","Eesti","Latviešu","Lietuvių","Gaeilge","Cymraeg","Malti","Català","Galego","Euskara","Afrikaans","Kiswahili","አማርኛ","Yorùbá","Igbo","Hausa","isiZulu","Sesotho","Shona","Oromo","Somali","ქართული","Беларуская","Bosanski","Crnogorski","Македонски","Mongolian","فارسی تاجیکی","فارسی دری","Esperanto","Latin","Luxembourgish","Føroyskt","Haitian Creole","Samoan","Tongan","Fijian","Maori","Greenlandic","Inuktitut"
+];
+const languageSelect=document.getElementById("language");
+languages.forEach((name,i)=>{
+ const option=document.createElement("option");
+ option.textContent=name; option.value=name;
+ if(i===0) option.selected=true;
+ languageSelect.appendChild(option);
+});
+
+const starter=[
+{name:"جزیره اسرارآمیز",creator:"ZENTORA",category:"ماجراجویی",desc:"یک ماجراجویی خیالی در جزیره‌ای ناشناخته.",icon:"🏝️"},
+{name:"شهر آینده",creator:"ZENTORA",category:"ساخت‌وساز",desc:"شهری جدید بساز و دنیای خودت را گسترش بده.",icon:"🏙️"},
+{name:"نبرد کهکشانی",creator:"ZENTORA",category:"اکشن",desc:"در یک جهان فضایی خیالی ماجراجویی کن.",icon:"🚀"},
+{name:"اتاق معما",creator:"ZENTORA",category:"معمایی",desc:"معماهای گوناگون را حل کن و رازها را کشف کن.",icon:"🔮"}
+];
+let games=JSON.parse(localStorage.getItem("zentoraGames")||"null")||starter;
+
+function renderGames(){
+ const search=document.getElementById("search").value.toLowerCase();
+ const category=document.getElementById("category").value;
+ const list=document.getElementById("gamesList");
+ list.innerHTML="";
+ const filtered=games.filter(g=>
+ (g.name+" "+g.creator+" "+g.desc).toLowerCase().includes(search)&&
+ (category==="all"||g.category===category)
+ );
+ filtered.forEach(g=>{
+ const card=document.createElement("article");
+ card.className="card";
+ const cover=document.createElement("div");
+ cover.className="cover"; cover.textContent=g.icon||"🎮";
+ const content=document.createElement("div");
+ content.className="card-content";
+ const title=document.createElement("h3"); title.textContent=g.name;
+ const tag=document.createElement("span"); tag.className="tag"; tag.textContent=g.category+" • "+g.creator;
+ const desc=document.createElement("p"); desc.textContent=g.desc;
+ content.append(title,tag,desc);
+ if(g.link){
+ const link=document.createElement("a");
+ link.href=g.link; link.target="_blank"; link.rel="noopener noreferrer";
+ link.textContent="مشاهده بازی ↗"; content.append(link);
+ }
+ card.append(cover,content); list.append(card);
+ });
+ if(!filtered.length) list.textContent="بازی‌ای پیدا نشد.";
+}
+function addGame(){
+ const name=document.getElementById("gameName").value.trim();
+ const creator=document.getElementById("creator").value.trim();
+ const desc=document.getElementById("gameDesc").value.trim();
+ const category=document.getElementById("gameCategory").value;
+ let link=document.getElementById("gameLink").value.trim();
+ if(!name||!creator||!desc){
+ document.getElementById("notice").textContent="لطفاً نام بازی، سازنده و توضیحات را وارد کن.";
+ return;
+ }
+ if(link&&!/^https?:\/\//i.test(link)){
+ document.getElementById("notice").textContent="لینک باید با https:// یا http:// شروع شود.";
+ return;
+ }
+ games.unshift({name,creator,desc,category,link,icon:"🎮"});
+ localStorage.setItem("zentoraGames",JSON.stringify(games));
+ renderGames();
+ document.getElementById("notice").textContent="معرفی بازی در این مرورگر ذخیره شد!";
+ document.getElementById("gameName").value="";
+ document.getElementById("creator").value="";
+ document.getElementById("gameDesc").value="";
+ document.getElementById("gameLink").value="";
+}
+function changeLanguage(){
+ const name=languageSelect.value;
+ document.getElementById("languageInfo").textContent=
+ name==="فارسی"?"زبان فعلی رابط: فارسی":"این زبان در فهرست قرار دارد؛ ترجمه کامل آن هنوز آماده نیست.";
+}
+renderGames();
+</script>
+</body>
+</html>
