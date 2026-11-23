@@ -3,188 +3,351 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d1b">
 <title>ZENTORA | جهان بازی‌ها</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#080d1b;--panel:#111a2d;--cyan:#43e6e0;--purple:#a78bfa;--muted:#94a3b8;--white:#f5f7ff}
 *{box-sizing:border-box}
-body{margin:0;background:#090d19;color:#f4f5ff;font-family:Tahoma,Arial,sans-serif}
-header{padding:20px 6%;display:flex;justify-content:space-between;align-items:center;background:#10172a;border-bottom:1px solid #293653;position:sticky;top:0;z-index:5}
-.logo{font-size:25px;font-weight:bold;color:#9d8cff}
-nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-a{color:#dce1ff;text-decoration:none}
-button,.btn{border:0;border-radius:12px;padding:12px 17px;background:#765cff;color:white;font-weight:bold;cursor:pointer}
-select,input,textarea{background:#151e33;color:white;border:1px solid #344362;border-radius:10px;padding:12px;width:100%;margin:7px 0}
-.hero{padding:65px 7%;text-align:center;background:radial-gradient(ellipse at top,#34236e,#11172c 65%,#090d19)}
-.hero h1{font-size:clamp(35px,7vw,65px);margin:10px;color:white}
-.hero h1 span{color:#a995ff}
-.hero p{color:#c4c9e2;line-height:2}
-.container{max-width:1150px;margin:auto;padding:30px 18px}
-.section-title{font-size:25px;margin-bottom:20px}
-.tools{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+body{margin:0;background:radial-gradient(ellipse at top,#142442,#080d1b 65%);color:var(--white);font-family:Vazirmatn,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:10;background:#080d1bea;backdrop-filter:blur(16px);border-bottom:1px solid #ffffff15;padding:14px 5%}
+.nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.logo{font-size:25px;font-weight:900;color:var(--cyan)}
+.logo span{color:var(--purple)}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav button{background:transparent;color:#dce8ff;border:1px solid #ffffff20;padding:9px 13px;border-radius:12px}
+nav button:hover{border-color:var(--cyan);color:var(--cyan)}
+.hero{max-width:1150px;margin:55px auto 35px;padding:45px 25px;text-align:center}
+.tag{display:inline-block;color:var(--cyan);background:#43e6e012;border:1px solid #43e6e04a;padding:7px 16px;border-radius:30px;font-size:13px}
+h1{font-size:clamp(35px,7vw,68px);line-height:1.35;margin:20px 0 12px;font-weight:900}
+h1 span{color:var(--cyan)}
+.hero p{color:var(--muted);max-width:650px;margin:0 auto 25px;line-height:2}
+.primary{background:linear-gradient(120deg,#43e6e0,#8c7bff);border:0;color:#071321;font-weight:900;padding:13px 22px;border-radius:13px}
+.primary:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.stats{display:flex;justify-content:center;gap:35px;flex-wrap:wrap;margin-top:38px}
+.stat strong{display:block;color:var(--cyan);font-size:25px}
+.stat small{color:var(--muted)}
+.container{max-width:1150px;margin:35px auto;padding:0 20px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+h2{font-size:23px;margin:0}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+input,select,textarea{background:#101a2c;color:white;border:1px solid #ffffff20;padding:12px;border-radius:11px;outline:none;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan)}
 .tools input{flex:1;min-width:180px}
-.tools select{width:auto;min-width:140px}
-.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-.card{background:#151e33;border:1px solid #2b3857;border-radius:18px;overflow:hidden}
-.cover{height:145px;display:grid;place-items:center;font-size:65px;background:linear-gradient(135deg,#29265c,#174d69)}
-.card-content{padding:16px}
-.card p{color:#b9c2dc;line-height:1.8;font-size:13px}
-.tag{font-size:12px;color:#b6a9ff}
-.panel{background:#151e33;border:1px solid #344362;border-radius:18px;padding:22px;margin-top:35px}
-.panel h2{margin-top:0}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-footer{text-align:center;color:#9da9c8;padding:35px;border-top:1px solid #293653;margin-top:45px}
-#notice{color:#a995ff;margin-top:12px}
+.tools select{width:auto;min-width:145px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:17px}
+.card{background:linear-gradient(145deg,#15223a,#101727);border:1px solid #ffffff13;border-radius:18px;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-5px);border-color:#43e6e060}
+.cover{height:135px;display:grid;place-items:center;font-size:55px;background:linear-gradient(135deg,#164c60,#34245f)}
+.card-body{padding:17px}
+.card h3{margin:0 0 8px}
+.card p{font-size:13px;color:var(--muted);line-height:1.9;min-height:48px}
+.meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;margin:12px 0}
+.card-actions{display:flex;gap:8px}
+.card-actions button{flex:1;padding:9px;border-radius:10px;border:1px solid #ffffff20;background:#ffffff08;color:white}
+.card-actions button:hover{border-color:var(--cyan)}
+.empty{text-align:center;padding:45px 15px;border:1px dashed #ffffff30;border-radius:18px;color:var(--muted);grid-column:1/-1}
+.panel{background:linear-gradient(145deg,#15223a,#101727);border:1px solid #ffffff18;border-radius:20px;padding:25px;margin-top:25px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:13px;color:#cbd5e1}
+.full{grid-column:1/-1}
+.note{font-size:12px;color:var(--muted);line-height:1.9}
+.hidden{display:none!important}
+.badge{display:inline-block;background:#43e6e018;color:var(--cyan);padding:4px 9px;border-radius:20px;font-size:11px}
+footer{text-align:center;padding:35px 15px;border-top:1px solid #ffffff15;color:var(--muted);margin-top:55px;font-size:13px;line-height:2}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#172b3d;border:1px solid var(--cyan);color:white;padding:13px 20px;border-radius:12px;z-index:30;max-width:90%;text-align:center}
+.stars{color:#ffd166}
+@media(max-width:600px){header{padding:12px}nav{width:100%;justify-content:center}nav button{font-size:12px;padding:8px}.hero{margin:25px auto;padding:30px 18px}.stats{gap:20px}.tools select{width:100%}}
 </style>
 </head>
 <body>
 <header>
-<div class="logo">🌌 ZENTORA</div>
+<div class="nav">
+<div class="logo">ZENTO<span>RA</span> ✦</div>
 <nav>
-<a href="#games">بازی‌ها</a>
-<a href="#publish">معرفی بازی</a>
-<a href="#about">درباره ما</a>
+<button onclick="showSection('games')">🎮 بازی‌ها</button>
+<button onclick="showSection('publish')">➕ انتشار بازی</button>
+<button onclick="showSection('reviews')">⭐ نظرات</button>
+<button onclick="showSection('about')">🌐 درباره ما</button>
 </nav>
+</div>
 </header>
 
+<main>
 <section class="hero">
-<div>🚀 به جهان جدید بازی‌ها خوش آمدی</div>
-<h1>جهان خودت را در <span>ZENTORA</span> کشف کن!</h1>
-<p>بازی‌های تازه را کشف کن، ایده‌هایت را به اشتراک بگذار و دنیای بازی خودت را بساز.</p>
-<a class="btn" href="#games">کشف بازی‌ها 🎮</a>
+<span class="tag">THE NEXT GENERATION GAME WORLD</span>
+<h1>به جهان <span>ZENTORA</span> خوش آمدی</h1>
+<p>بازی‌های جدید را کشف کن، بازی خودت را منتشر کن و فروشگاه شخصی خودت را بساز. دنیایی برای سازندگان بازی از سراسر جهان!</p>
+<button class="primary" onclick="showSection('games')">🚀 ورود به دنیای بازی‌ها</button>
+<div class="stats">
+<div class="stat"><strong id="gameCount">۰</strong><small>بازی منتشرشده</small></div>
+<div class="stat"><strong id="sellerCount">۰</strong><small>سازنده ثبت‌شده</small></div>
+<div class="stat"><strong>100+</strong><small>زبان قابل انتخاب</small></div>
+</div>
 </section>
 
-<main class="container">
-<section id="games">
-<h2 class="section-title">🎮 دنیای بازی‌ها</h2>
+<section class="container" id="games">
+<div class="section-head">
+<h2>🎮 فروشگاه بازی‌ها</h2>
+<span class="badge">GAME STORE</span>
+</div>
 <div class="tools">
-<input id="search" placeholder="جست‌وجوی بازی..." oninput="renderGames()">
+<input id="search" placeholder="🔍 جست‌وجوی بازی یا سازنده..." oninput="renderGames()">
 <select id="category" onchange="renderGames()">
-<option value="all">همه دسته‌ها</option>
-<option value="ماجراجویی">ماجراجویی</option>
-<option value="ساخت‌وساز">ساخت‌وساز</option>
-<option value="اکشن">اکشن</option>
-<option value="معمایی">معمایی</option>
+<option value="">همه دسته‌ها</option>
+<option>ماجراجویی</option><option>ساخت‌وساز</option><option>اکشن</option><option>معمایی</option><option>سرعتی</option><option>سایر</option>
+</select>
+<select id="sort" onchange="renderGames()">
+<option value="new">جدیدترین</option>
+<option value="likes">محبوب‌ترین</option>
+<option value="cheap">ارزان‌ترین</option>
 </select>
 </div>
-<div class="games" id="gamesList"></div>
+<div class="grid" id="gameGrid"></div>
 </section>
 
-<section class="panel" id="publish">
-<h2>✨ معرفی بازی جدید</h2>
-<p>بازی یا تجربه خودت را به جامعه ZENTORA معرفی کن.</p>
+<section class="container hidden" id="publish">
+<div class="section-head"><h2>🚀 انتشار بازی جدید</h2></div>
+<div class="panel">
+<p class="note">اطلاعات سازندگی خود را وارد کن و بازی‌ات را در ZENTORA منتشر کن.</p>
+<form id="publishForm">
 <div class="form-grid">
-<input id="gameName" placeholder="نام بازی">
-<input id="creator" placeholder="نام سازنده">
-<select id="gameCategory">
-<option>ماجراجویی</option>
-<option>ساخت‌وساز</option>
-<option>اکشن</option>
-<option>معمایی</option>
-</select>
-<input id="gameLink" placeholder="لینک بازی (اختیاری)">
+<div class="field"><label>نام سازنده</label><input id="seller" required maxlength="40" placeholder="نام شما"></div>
+<div class="field"><label>آیدی روبیکا</label><input id="rubika" required placeholder="@username"></div>
+<div class="field full">
+<label>عضویت در کانال</label>
+<p class="note">ابتدا عضو کانال رسمی شو: <a href="https://rubika.ir/ARIA22626" target="_blank" style="color:var(--cyan)">کانال دراگن استیو</a></p>
+<label><input type="checkbox" id="member" required style="width:auto"> عضو کانال هستم</label>
 </div>
-<textarea id="gameDesc" rows="3" placeholder="توضیحات بازی"></textarea>
-<button onclick="addGame()">ثبت معرفی بازی</button>
-<div id="notice"></div>
+<div class="field"><label>نام بازی</label><input id="gameName" required maxlength="50"></div>
+<div class="field"><label>دسته‌بندی</label><select id="gameCategory"><option>ماجراجویی</option><option>ساخت‌وساز</option><option>اکشن</option><option>معمایی</option><option>سرعتی</option><option>سایر</option></select></div>
+<div class="field"><label>قیمت بازی</label><input id="price" type="number" min="0" required placeholder="مثلاً 0"></div>
+<div class="field"><label>واحد پول</label><select id="currency"><option>رایگان</option><option>تومان</option><option>دلار</option><option>یورو</option><option>پوند</option><option>لیر</option><option>درهم</option><option>روبل</option><option>ین</option><option>روپیه</option></select></div>
+<div class="field"><label>ایموجی بازی</label><input id="gameIcon" maxlength="5" value="🎮"></div>
+<div class="field"><label>لینک بازی</label><input id="gameLink" type="url" placeholder="https://..." required></div>
+<div class="field full"><label>توضیحات بازی</label><textarea id="description" rows="4" required maxlength="400" placeholder="درباره بازی توضیح بده..."></textarea></div>
+<div class="field full"><button class="primary" type="submit">ثبت بازی در فروشگاه</button></div>
+</div>
+</form>
+<p class="note">توجه: بررسی واقعی عضویت کانال به اتصال سرور نیاز دارد. این نسخه فقط نمونه نمایشی است.</p>
+</div>
 </section>
 
-<section class="panel" id="about">
-<h2>🌍 درباره ZENTORA</h2>
-<p>اینجا جایی برای کشف بازی‌ها، معرفی ایده‌های خلاقانه و آشنایی با سازندگان از سراسر دنیاست.</p>
-<p>هدف ما ساخت یک جامعه مستقل برای دوستداران بازی است.</p>
-<label for="language">🌐 انتخاب زبان</label>
-<select id="language" onchange="changeLanguage()"></select>
-<p id="languageInfo">زبان فعلی رابط: فارسی</p>
+<section class="container hidden" id="reviews">
+<div class="section-head"><h2>⭐ نظرات و امتیازها</h2></div>
+<div class="panel">
+<form id="reviewForm">
+<div class="form-grid">
+<div class="field"><label>نام شما</label><input id="reviewName" required></div>
+<div class="field"><label>امتیاز</label><select id="rating"><option value="5">⭐⭐⭐⭐⭐ عالی</option><option value="4">⭐⭐⭐⭐ خوب</option><option value="3">⭐⭐⭐ متوسط</option><option value="2">⭐⭐ ضعیف</option><option value="1">⭐ خیلی ضعیف</option></select></div>
+<div class="field full"><label>نظر شما</label><textarea id="reviewText" required maxlength="500"></textarea></div>
+<div class="field full"><button class="primary">ثبت نظر</button></div>
+</div>
+</form>
+<div id="reviewList" style="margin-top:20px"></div>
+</div>
+</section>
+
+<section class="container hidden" id="about">
+<div class="panel">
+<h2>🌐 درباره ZENTORA</h2>
+<p style="color:var(--muted);line-height:2.2">ZENTORA یک جهان دیجیتالی برای معرفی بازی‌ها، سازندگان مستقل و فروشگاه‌های شخصی است. هدف ما ایجاد فضایی برای ارتباط بازیکنان و سازندگان از کشورهای مختلف است.</p>
+<h3>🌍 انتخاب زبان</h3>
+<select id="language" onchange="changeLanguage()">
+<option>فارسی</option><option>English</option><option>العربية</option><option>Türkçe</option><option>Deutsch</option><option>Français</option><option>Español</option><option>Русский</option><option>中文</option><option>日本語</option><option>한국어</option><option>हिन्दी</option><option>Português</option><option>Italiano</option><option>اردو</option><option>Azərbaycanca</option><option>کوردی</option><option>پشتو</option><option>বাংলা</option><option>Tiếng Việt</option>
+</select>
+<p class="note">امکان اضافه‌کردن بیش از ۱۰۰ زبان در نسخه چندزبانه وجود دارد. ترجمه کامل هنوز پیاده‌سازی نشده است.</p>
+</div>
 </section>
 </main>
 
 <footer>
-<strong>ZENTORA</strong>
-<p>فراتر از دنیای بازی‌ها! 🌌</p>
-<p>© 2026 ZENTORA</p>
+<div class="logo">ZENTORA ✦</div>
+<p>جهانی برای کشف، ساخت و انتشار بازی‌ها</p>
+<p>مدیریت: <a href="https://rubika.ir/ARIA22626" style="color:var(--cyan)">دراگن استیو</a></p>
+<p>© ZENTORA - All Rights Reserved</p>
 </footer>
 
-<script>
-const languages = [
-"فارسی","English","العربية","Türkçe","Deutsch","Français","Español","Português","Русский","中文","日本語","한국어","हिन्दी","اردو","Italiano","Nederlands","Polski","Українська","Ελληνικά","עברית","বাংলা","ไทย","Tiếng Việt","Bahasa Indonesia","Bahasa Melayu","Filipino","فارسی افغانستان","پشتو","کوردی","Svenska","Norsk","Dansk","Suomi","Íslenska","Čeština","Slovenčina","Magyar","Română","Български","Српски","Hrvatski","Slovenščina","Shqip","Македонски","ქართული","Հայերեն","Azərbaycanca","Қазақша","O‘zbekcha","Türkmençe","Кыргызча","Монгол","नेपाली","සිංහල","தமிழ்","తెలుగు","ಕನ್ನಡ","മലയാളം","मराठी","ગુજરાતી","ਪੰਜਾਬੀ","অসমীয়া","မြန်မာ","ខ្មែរ","ລາວ","Eesti","Latviešu","Lietuvių","Gaeilge","Cymraeg","Malti","Català","Galego","Euskara","Afrikaans","Kiswahili","አማርኛ","Yorùbá","Igbo","Hausa","isiZulu","Sesotho","Shona","Oromo","Somali","ქართული","Беларуская","Bosanski","Crnogorski","Македонски","Mongolian","فارسی تاجیکی","فارسی دری","Esperanto","Latin","Luxembourgish","Føroyskt","Haitian Creole","Samoan","Tongan","Fijian","Maori","Greenlandic","Inuktitut"
-];
-const languageSelect=document.getElementById("language");
-languages.forEach((name,i)=>{
- const option=document.createElement("option");
- option.textContent=name; option.value=name;
- if(i===0) option.selected=true;
- languageSelect.appendChild(option);
-});
+<div id="toast" class="toast hidden"></div>
 
-const starter=[
-{name:"جزیره اسرارآمیز",creator:"ZENTORA",category:"ماجراجویی",desc:"یک ماجراجویی خیالی در جزیره‌ای ناشناخته.",icon:"🏝️"},
-{name:"شهر آینده",creator:"ZENTORA",category:"ساخت‌وساز",desc:"شهری جدید بساز و دنیای خودت را گسترش بده.",icon:"🏙️"},
-{name:"نبرد کهکشانی",creator:"ZENTORA",category:"اکشن",desc:"در یک جهان فضایی خیالی ماجراجویی کن.",icon:"🚀"},
-{name:"اتاق معما",creator:"ZENTORA",category:"معمایی",desc:"معماهای گوناگون را حل کن و رازها را کشف کن.",icon:"🔮"}
-];
-let games=JSON.parse(localStorage.getItem("zentoraGames")||"null")||starter;
+<script>
+const KEY='zentoraGames_v3';
+const REVIEW_KEY='zentoraReviews_v3';
+
+function safeLoad(key){
+try{
+const x=JSON.parse(localStorage.getItem(key));
+return Array.isArray(x)?x:[];
+}catch(e){return []}
+}
+
+let games=safeLoad(KEY);
+let reviews=safeLoad(REVIEW_KEY);
+let likes=safeLoad('zentoraLikes_v3');
+
+function save(){
+try{
+localStorage.setItem(KEY,JSON.stringify(games));
+localStorage.setItem(REVIEW_KEY,JSON.stringify(reviews));
+localStorage.setItem('zentoraLikes_v3',JSON.stringify(likes));
+}catch(e){notify('فضای ذخیره‌سازی مرورگر کافی نیست')}
+}
+
+function notify(message){
+const t=document.getElementById('toast');
+t.textContent=message;
+t.classList.remove('hidden');
+setTimeout(()=>t.classList.add('hidden'),3000);
+}
+
+function showSection(id){
+document.querySelectorAll('main .container').forEach(x=>x.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+window.scrollTo({top:0,behavior:'smooth'});
+if(id==='games')renderGames();
+if(id==='reviews')renderReviews();
+}
+
+function updateStats(){
+document.getElementById('gameCount').textContent=games.length.toLocaleString('fa-IR');
+document.getElementById('sellerCount').textContent=new Set(games.map(g=>g.creator)).size.toLocaleString('fa-IR');
+}
+
+function escapeHTML(s){
+return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 
 function renderGames(){
- const search=document.getElementById("search").value.toLowerCase();
- const category=document.getElementById("category").value;
- const list=document.getElementById("gamesList");
- list.innerHTML="";
- const filtered=games.filter(g=>
- (g.name+" "+g.creator+" "+g.desc).toLowerCase().includes(search)&&
- (category==="all"||g.category===category)
- );
- filtered.forEach(g=>{
- const card=document.createElement("article");
- card.className="card";
- const cover=document.createElement("div");
- cover.className="cover"; cover.textContent=g.icon||"🎮";
- const content=document.createElement("div");
- content.className="card-content";
- const title=document.createElement("h3"); title.textContent=g.name;
- const tag=document.createElement("span"); tag.className="tag"; tag.textContent=g.category+" • "+g.creator;
- const desc=document.createElement("p"); desc.textContent=g.desc;
- content.append(title,tag,desc);
- if(g.link){
- const link=document.createElement("a");
- link.href=g.link; link.target="_blank"; link.rel="noopener noreferrer";
- link.textContent="مشاهده بازی ↗"; content.append(link);
- }
- card.append(cover,content); list.append(card);
- });
- if(!filtered.length) list.textContent="بازی‌ای پیدا نشد.";
+const grid=document.getElementById('gameGrid');
+const q=document.getElementById('search').value.trim().toLowerCase();
+const cat=document.getElementById('category').value;
+const sort=document.getElementById('sort').value;
+
+let list=games.filter(g=>(g.name+' '+g.creator).toLowerCase().includes(q)&&(!cat||g.category===cat));
+
+if(sort==='likes')list.sort((a,b)=>b.likes-a.likes);
+if(sort==='new')list.sort((a,b)=>b.createdAt-a.createdAt);
+if(sort==='cheap')list.sort((a,b)=>a.price-b.price);
+
+if(!list.length){
+grid.innerHTML='<div class="empty">🎮 هنوز بازی‌ای منتشر نشده است.<br>اولین بازی را تو منتشر کن!</div>';
+updateStats();
+return;
 }
-function addGame(){
- const name=document.getElementById("gameName").value.trim();
- const creator=document.getElementById("creator").value.trim();
- const desc=document.getElementById("gameDesc").value.trim();
- const category=document.getElementById("gameCategory").value;
- let link=document.getElementById("gameLink").value.trim();
- if(!name||!creator||!desc){
- document.getElementById("notice").textContent="لطفاً نام بازی، سازنده و توضیحات را وارد کن.";
- return;
- }
- if(link&&!/^https?:\/\//i.test(link)){
- document.getElementById("notice").textContent="لینک باید با https:// یا http:// شروع شود.";
- return;
- }
- games.unshift({name,creator,desc,category,link,icon:"🎮"});
- localStorage.setItem("zentoraGames",JSON.stringify(games));
- renderGames();
- document.getElementById("notice").textContent="معرفی بازی در این مرورگر ذخیره شد!";
- document.getElementById("gameName").value="";
- document.getElementById("creator").value="";
- document.getElementById("gameDesc").value="";
- document.getElementById("gameLink").value="";
+
+grid.innerHTML=list.map(g=>`
+<article class="card">
+<div class="cover">${escapeHTML(g.icon||'🎮')}</div>
+<div class="card-body">
+<span class="badge">${escapeHTML(g.category)}</span>
+<h3>${escapeHTML(g.name)}</h3>
+<p>${escapeHTML(g.desc)}</p>
+<div class="meta"><span>👤 ${escapeHTML(g.creator)}</span><span>❤️ ${g.likes}</span></div>
+<div class="meta"><b>${g.price===0?'رایگان':Number(g.price).toLocaleString()+' '+escapeHTML(g.currency)}</b></div>
+<div class="card-actions">
+<button onclick="likeGame('${g.id}')">❤️ پسندیدن</button>
+<button onclick="openGame('${g.id}')">▶ مشاهده بازی</button>
+</div>
+</div>
+</article>`).join('');
+
+updateStats();
 }
-function changeLanguage(){
- const name=languageSelect.value;
- document.getElementById("languageInfo").textContent=
- name==="فارسی"?"زبان فعلی رابط: فارسی":"این زبان در فهرست قرار دارد؛ ترجمه کامل آن هنوز آماده نیست.";
+
+function likeGame(id){
+const g=games.find(x=>x.id===id);
+if(!g)return;
+if(likes.includes(id)){
+notify('این بازی را قبلاً پسندیده‌ای');
+return;
 }
+likes.push(id);
+g.likes++;
+save();
 renderGames();
+notify('❤️ پسندیدن ثبت شد');
+}
+
+function openGame(id){
+const g=games.find(x=>x.id===id);
+if(!g)return;
+if(g.link)window.open(g.link,'_blank','noopener');
+else notify('لینک بازی ثبت نشده است');
+}
+
+document.getElementById('publishForm').addEventListener('submit',e=>{
+e.preventDefault();
+
+if(!document.getElementById('member').checked){
+notify('ابتدا عضویت کانال را تأیید کن');
+return;
+}
+
+const g={
+id:'g-'+Date.now(),
+creator:document.getElementById('seller').value.trim(),
+rubika:document.getElementById('rubika').value.trim(),
+name:document.getElementById('gameName').value.trim(),
+category:document.getElementById('gameCategory').value,
+price:Number(document.getElementById('price').value),
+currency:document.getElementById('currency').value,
+icon:document.getElementById('gameIcon').value.trim()||'🎮',
+link:document.getElementById('gameLink').value.trim(),
+desc:document.getElementById('description').value.trim(),
+likes:0,
+createdAt:Date.now()
+};
+
+if(!g.name||!g.creator||!g.link){
+notify('اطلاعات ضروری را کامل کن');
+return;
+}
+
+games.unshift(g);
+save();
+e.target.reset();
+renderGames();
+notify('🎮 بازی ثبت شد!');
+showSection('games');
+});
+
+document.getElementById('reviewForm').addEventListener('submit',e=>{
+e.preventDefault();
+
+reviews.unshift({
+name:document.getElementById('reviewName').value.trim(),
+rating:Number(document.getElementById('rating').value),
+text:document.getElementById('reviewText').value.trim()
+});
+
+save();
+e.target.reset();
+renderReviews();
+notify('⭐ نظر ثبت شد');
+});
+
+function renderReviews(){
+document.getElementById('reviewList').innerHTML=reviews.length?
+reviews.map(r=>`
+<div class="panel">
+<strong>${escapeHTML(r.name)}</strong>
+<div class="stars">${'⭐'.repeat(r.rating)}</div>
+<p>${escapeHTML(r.text)}</p>
+</div>`).join(''):
+'<p class="note">هنوز نظری ثبت نشده است.</p>';
+}
+
+function changeLanguage(){
+notify('زبان انتخاب شد؛ ترجمه کامل در نسخه چندزبانه فعال خواهد شد.');
+}
+
+renderGames();
+renderReviews();
+updateStats();
 </script>
 </body>
 </html>
-<a href="https://rubika.ir/ARIA22626" target="_blank">
-  🚀 ورود به کانال روبیکا
-</a>
