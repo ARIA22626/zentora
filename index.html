@@ -3,327 +3,417 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZENTORA | دنیای بازی‌ها</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ZENTORA 3D</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#0b1020;color:#fff;font-family:Tahoma,Arial,sans-serif}
-header{padding:25px 15px;text-align:center;background:linear-gradient(135deg,#151d42,#5126a5)}
-header h1{font-size:34px;color:#a9a5ff;margin:5px}
-header p{color:#ddd}
-main{max-width:1100px;margin:auto;padding:18px}
-.stats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:15px}
-.stat{background:#1b2440;padding:12px 20px;border-radius:14px}
-input{width:100%;padding:15px;border:1px solid #39456c;border-radius:12px;background:#151d32;color:white;font-size:16px;margin:12px 0}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-button{border:0;border-radius:10px;padding:11px 15px;background:#7049e9;color:white;cursor:pointer;font-size:14px}
-button:hover{filter:brightness(1.2)}
-button.active{background:#16a68a}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
-.card{background:#18223c;border:1px solid #303e63;padding:17px 12px;border-radius:15px;text-align:center;cursor:pointer;transition:.2s}
-.card:hover{transform:translateY(-3px);border-color:#9c82ff}
-.card .emoji{font-size:35px}
-.card h3{font-size:14px;min-height:34px}
-.card small{color:#a9b6d8}
-#game{display:none;background:#151e36;border:1px solid #46517b;border-radius:18px;padding:20px;margin-top:20px;text-align:center}
-#game h2{color:#b9a7ff}
-.game-number{font-size:30px;margin:15px}
-.result{background:#222e4c;padding:15px;border-radius:12px;margin:15px 0;min-height:55px}
-.actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
-.actions button{min-width:105px}
-.bar{height:12px;background:#35415c;border-radius:20px;overflow:hidden;margin:12px 0}
-.bar div{height:100%;background:#32d6a0;width:0;transition:.3s}
-footer{text-align:center;color:#8e9bb9;padding:25px}
-.hidden{display:none}
+body{margin:0;overflow:hidden;background:#101b25;color:white;font-family:Tahoma}
+canvas{display:block}
+#hud{position:fixed;inset:0;pointer-events:none}
+.panel{background:#101c2bdd;border:1px solid #ffffff30;border-radius:13px;padding:10px}
+#top{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+#logo{font-weight:bold;color:#b7a5ff;font-size:20px}
+#money{font-size:13px}
+#message{position:absolute;top:75px;left:50%;transform:translateX(-50%);text-align:center;width:max-content;max-width:90%;font-size:13px}
+#left{position:absolute;bottom:25px;left:20px;width:125px;height:125px;border-radius:50%;background:#ffffff18;border:2px solid #ffffff55;pointer-events:auto;touch-action:none}
+#stick{position:absolute;width:48px;height:48px;background:#a38bff;border-radius:50%;left:36px;top:36px}
+#right{position:absolute;bottom:25px;right:20px;display:flex;gap:12px;align-items:end;pointer-events:auto}
+.ctrl{width:65px;height:65px;border-radius:50%;background:#6548d9dd;border:2px solid #ffffff70;color:white;font-size:12px;touch-action:none}
+#jump{width:75px;height:75px;background:#159c82}
+#run{background:#d17a24}
+#menu{position:absolute;top:65px;right:10px;pointer-events:auto}
+#menu button,#close button{padding:10px;border:0;border-radius:9px;background:#684bd2;color:white;margin:3px}
+#catalog{display:none;position:absolute;inset:15% 5%;background:#111d32f5;border:1px solid #ffffff40;border-radius:17px;padding:18px;overflow:auto;pointer-events:auto}
+#catalog h2{color:#b9a7ff}
+#catalog button{padding:12px;margin:4px;border:0;border-radius:9px;background:#293c60;color:white}
+#catalog .selected{background:#7656e7}
+#help{position:absolute;bottom:165px;left:10px;font-size:10px;color:#ddd;max-width:145px}
+@media(min-width:800px){
+#left{width:145px;height:145px}
+#stick{left:43px;top:43px}
+}
 </style>
 </head>
 <body>
 
-<header>
-<h1>🐉 ZENTORA</h1>
-<p>دنیای ۱۴۲ بازی متنوع و سرگرم‌کننده</p>
-<div class="stats">
-<div class="stat">🎮 تعداد بازی‌ها: <b>۱۴۲</b></div>
-<div class="stat">⚽ ورزشی: <b>۱۰۰</b></div>
-<div class="stat">💰 اقتصادی: <b>۴۲</b></div>
-</div>
-</header>
-
-<main>
-<h2>🌍 انتخاب دنیای بازی</h2>
-<input id="search" placeholder="🔎 اسم بازی را جستجو کن..." oninput="render()">
-
-<div class="filters">
-<button class="active" onclick="setFilter('all',this)">همه بازی‌ها</button>
-<button onclick="setFilter('sport',this)">⚽ ورزشی</button>
-<button onclick="setFilter('business',this)">💰 اقتصادی</button>
-</div>
-
-<div id="count"></div>
-<div class="grid" id="games"></div>
-
-<section id="game">
-<h2 id="gameTitle"></h2>
-<p id="gameDescription"></p>
-<div class="game-number" id="gameEmoji"></div>
-<div class="result" id="result">برای شروع بازی روی دکمه شروع بزن!</div>
-<div id="gameStats"></div>
-<div id="gameActions" class="actions"></div>
-<br>
-<button onclick="closeGame()">⬅️ بازگشت به بازی‌ها</button>
-</section>
-</main>
-
-<footer>
-🐉 ZENTORA | دنیای سرگرمی و بازی
-<br>تمام پول‌ها در این سایت مجازی هستند.
-</footer>
-
-<script>
-const sports = [
-["فوتبال","⚽"],["بسکتبال","🏀"],["والیبال","🏐"],["تنیس","🎾"],
-["تنیس روی میز","🏓"],["بدمینتون","🏸"],["هندبال","🤾"],["فوتسال","⚽"],
-["راگبی","🏉"],["کریکت","🏏"],["بیسبال","⚾"],["گلف","⛳"],
-["بولینگ","🎳"],["بیلیارد","🎱"],["شطرنج ورزشی","♟️"],["دوچرخه‌سواری","🚴"],
-["دوچرخه‌سواری کوهستان","🚵"],["مسابقه دو","🏃"],["ماراتن","🏃"],["پرش طول","🦘"],
-["پرش ارتفاع","🏅"],["پرتاب دیسک","🥏"],["پرتاب وزنه","🏋️"],["ژیمناستیک","🤸"],
-["شنا","🏊"],["شیرجه","🤿"],["قایقرانی","🚣"],["کایاک","🛶"],
-["اسکی","⛷️"],["اسنوبرد","🏂"],["اسکیت","🛼"],["اسکیت‌بورد","🛹"],
-["هاکی روی یخ","🏒"],["هاکی روی چمن","🏑"],["بوکس","🥊"],["شمشیربازی","🤺"],
-["تیراندازی با کمان","🏹"],["وزنه‌برداری","🏋️"],["کشتی","🤼"],["جودو","🥋"],
-["تکواندو","🥋"],["کاراته","🥋"],["پینگ‌پنگ دوبل","🏓"],["فوتبال ساحلی","🏖️"],
-["فوتبال آمریکایی","🏈"],["فوتبال دستی","⚽"],["واترپلو","🤽"],["اسکواش","🎾"],
-["راکت‌بال","🎾"],["پدل","🎾"],["والیبال ساحلی","🏐"],["طناب‌زنی","🪢"],
-["پارکور","🏃"],["کوهنوردی ورزشی","🧗"],["سنگ‌نوردی","🧗"],["اسب‌سواری","🐎"],
-["مسابقه اسب‌دوانی","🏇"],["اتومبیل‌رانی","🏎️"],["کارتینگ","🏎️"],["موتورسواری","🏍️"],
-["مسابقه قایق","🚤"],["مسابقه پهپاد","🛸"],["بولینگ چمنی","🎳"],["دارت","🎯"],
-["پرتاب نیزه","🏅"],["دو با مانع","🏃"],["دو امدادی","🏃"],["سه‌گانه","🏅"],
-["پنج‌گانه","🏅"],["قایقرانی بادبانی","⛵"],["موج‌سواری","🏄"],["غواصی","🤿"],
-["اسکی روی آب","🌊"],["بازی برف","❄️"],["کرلینگ","🥌"],["بیاتلون","🎿"],
-["بازی شافل‌بورد","🎯"],["پتانک","🎯"],["کروکت","🏑"],["لاکراس","🥍"],
-["کبدی","🤼"],["سپک تاکرا","🏐"],["سافت‌بال","🥎"],["پولو","🐎"],
-["فریزبی","🥏"],["فوتبال حبابی","⚽"],["طناب‌کشی","🪢"],["دو با کیسه","🏃"],
-["مسابقه موانع","🏅"],["قایقرانی تیمی","🚣"],["اسکیت سرعت","🛼"],["اسکیت نمایشی","⛸️"],
-["رقص ورزشی","💃"],["ورزش سه‌گانه آبی","🏊"],["کبدی ساحلی","🏖️"],["بازی حلقه","⭕"],
-["توپ‌دستی","🏐"],["مسابقه سرعت","🏁"],["مسابقه پرش","🏆"]
-];
-
-const businesses = [
-["دلار اول","💵","فروشگاه کوچک"],["امپراتوری فروشگاه","🏪","فروشگاه"],
-["شهرساز","🏙️","شهر"],["مدیر هتل","🏨","هتل"],
-["کارخانه‌دار","🏭","کارخانه"],["مدیر رستوران","🍔","رستوران"],
-["امپراتوری بازی","🎮","استودیوی بازی"],["مدیر کافه","☕","کافه"],
-["مزرعه‌دار","🌾","مزرعه"],["مدیر سوپرمارکت","🛒","سوپرمارکت"],
-["سازنده خانه","🏠","ساختمان"],["مدیر فرودگاه","✈️","فرودگاه"],
-["مدیر بندر","🚢","بندر"],["مدیر سینما","🎬","سینما"],
-["مدیر شهربازی","🎡","شهربازی"],["مدیر بیمارستان","🏥","بیمارستان"],
-["مدیر مدرسه","🏫","مدرسه"],["مدیر موزه","🏛️","موزه"],
-["شرکت فضایی","🚀","شرکت فضایی"],["شرکت ربات‌سازی","🤖","ربات"],
-["مدیر معدن","⛏️","معدن"],["مدیر جواهرات","💎","جواهرفروشی"],
-["مدیر کتاب‌فروشی","📚","کتاب‌فروشی"],["مدیر لباس","👕","فروشگاه لباس"],
-["مدیر اسباب‌بازی","🧸","فروشگاه اسباب‌بازی"],["مدیر حیوانات","🐾","مرکز حیوانات"],
-["مدیر باغ‌وحش","🦁","باغ‌وحش"],["مدیر پارک","🌳","پارک"],
-["مدیر تاکسی","🚕","شرکت تاکسی"],["مدیر قطار","🚆","راه‌آهن"],
-["شرکت هواپیمایی","🛫","هواپیمایی"],["مدیر کشتی","🛳️","کشتی"],
-["مدیر انرژی","⚡","نیروگاه"],["مدیر فناوری","💻","شرکت فناوری"],
-["مدیر اینترنت","🌐","شرکت اینترنت"],["مدیر تولید غذا","🍕","کارخانه غذا"],
-["مدیر نوشیدنی","🥤","کارخانه نوشیدنی"],["مدیر مزرعه حیوانات","🐄","دامداری"],
-["مدیر گل‌فروشی","🌷","گل‌فروشی"],["مدیر پیتزا","🍕","پیتزافروشی"],
-["مدیر شهر بازی","🎠","مرکز تفریحی"],["امپراتوری تجارت","🌍","شرکت تجاری"]
-];
-
-let filter = "all";
-let current = null;
-let sportsRound = 0;
-let sportsScore = 0;
-let economy = null;
-
-function allGames(){
- return [
- ...sports.map((x,i)=>({id:"s"+i,name:x[0],emoji:x[1],type:"sport",desc:"بازی ورزشی "+x[0]})),
- ...businesses.map((x,i)=>({id:"b"+i,name:x[0],emoji:x[1],type:"business",product:x[2],desc:"بازی اقتصادی و مدیریت "+x[2]}))
- ];
-}
-
-const games = allGames();
-
-function setFilter(f,btn){
- filter=f;
- document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
- btn.classList.add("active");
- render();
-}
-
-function render(){
- const q=document.getElementById("search").value.trim().toLowerCase();
- const list=games.filter(g=>
- (filter==="all"||g.type===filter)&&g.name.toLowerCase().includes(q)
- );
- document.getElementById("count").textContent="نمایش "+list.length+" بازی";
- document.getElementById("games").innerHTML=list.map(g=>`
- <div class="card" onclick="openGame('${g.id}')">
- <div class="emoji">${g.emoji}</div>
- <h3>${g.name}</h3>
- <small>${g.type==="sport"?"⚽ ورزشی":"💰 اقتصادی"}</small>
- </div>`).join("");
-}
-function save(data){
- localStorage.setItem("zentora_"+current.id,JSON.stringify(data));
-}
-function load(g){
- try{return JSON.parse(localStorage.getItem("zentora_"+g.id));}
- catch(e){return null;}
-}
-function openGame(id){
- current=games.find(g=>g.id===id);
- document.getElementById("game").style.display="block";
- document.getElementById("gameTitle").textContent=current.name;
- document.getElementById("gameEmoji").textContent=current.emoji;
- document.getElementById("gameDescription").textContent=current.desc;
- document.getElementById("game").scrollIntoView({behavior:"smooth"});
- if(current.type==="sport") sportScreen();
- else economyScreen();
-}
-function closeGame(){
- document.getElementById("game").style.display="none";
- current=null;
- window.scrollTo({top:0,behavior:"smooth"});
-}
-function setResult(t){
- document.getElementById("result").textContent=t;
-}
-function setActions(html){
- document.getElementById("gameActions").innerHTML=html;
-}
-function setStats(html){
- document.getElementById("gameStats").innerHTML=html;
-}
-
-/* بازی ورزشی */
-function sportScreen(){
- sportsRound=0;
- sportsScore=0;
- setStats("مسابقه ۱۰ مرحله‌ای");
- setResult("آماده‌ای؟ در هر مرحله یک حرکت انجام بده و امتیاز بگیر!");
- setActions('<button onclick="startSport()">🏆 شروع مسابقه</button>');
-}
-function startSport(){
- sportsRound=0;
- sportsScore=0;
- sportStep();
-}
-function sportStep(){
- if(sportsRound>=10){
- setResult("🏆 مسابقه تمام شد! امتیاز نهایی: "+sportsScore);
- setStats("امتیاز: "+sportsScore+" | مراحل: ۱۰ از ۱۰");
- setActions('<button onclick="startSport()">🔄 مسابقه دوباره</button>');
- return;
- }
- setStats("مرحله "+(sportsRound+1)+" از ۱۰ | امتیاز: "+sportsScore);
- setResult("حرکت "+current.name+" را انجام بده!");
- setActions(`
- <button onclick="sportMove(1)">حرکت ساده</button>
- <button onclick="sportMove(2)">حرکت حرفه‌ای</button>
- <button onclick="sportMove(3)">حرکت ویژه</button>`);
-}
-function sportMove(level){
- let success=Math.random();
- let points=success>.18?level*10:0;
- sportsScore+=points;
- sportsRound++;
- setResult(points?"آفرین! "+points+" امتیاز گرفتی! 🎉":"این مرحله امتیازی نداشت. دوباره تلاش کن!");
- sportStep();
-}
-
-/* بازی اقتصادی */
-function economyScreen(){
- economy=load(current)||{
- money:20,
- level:1,
- stock:0,
- sales:0,
- upgrades:0
- };
- economyRender();
-}
-function economyRender(){
- const money=economy.money;
- const level=economy.level;
- setStats(`
- <div class="result">
- 💵 موجودی: <b>${money.toFixed(2)} دلار مجازی</b><br>
- ⭐ سطح کسب‌وکار: ${level}<br>
- 📦 محصولات: ${economy.stock}<br>
- 🛒 فروش‌ها: ${economy.sales}
+<div id="hud">
+ <div id="top">
+  <div class="panel" id="logo">🐉 ZENTORA 3D</div>
+  <div class="panel" id="money">💰 ۲۰ دلار</div>
  </div>
- <div class="bar"><div style="width:${Math.min(100,level*10)}%"></div></div>
- `);
- setResult("به "+current.product+" خودت خوش آمدی! کسب‌وکارت را توسعه بده.");
- setActions(`
- <button onclick="work()">💼 کار کردن</button>
- <button onclick="buyStock()">📦 خرید کالا</button>
- <button onclick="sellStock()">🛒 فروش کالا</button>
- <button onclick="upgrade()">⬆️ ارتقا</button>
- <button onclick="businessBonus()">🎁 جایزه روزانه</button>
- `);
- save(economy);
-}
-function work(){
- economy.money+=5+economy.level;
- setResult("💵 از فعالیت کسب‌وکارت "+(5+economy.level)+" دلار درآمد گرفتی!");
- economyRender();
-}
-function buyStock(){
- let price=5+economy.level*2;
- if(economy.money<price){
- setResult("پول کافی نداری! ابتدا کار کن.");
- return;
+ <div id="message" class="panel">به دنیای سه‌بعدی زنتورا خوش آمدی!</div>
+ <div id="menu"><button onclick="showCatalog()">🎮 بازی‌ها</button></div>
+ <div id="help">حرکت: جوی‌استیک<br>پرش: دکمه سبز<br>تعامل: دکمه آبی</div>
+ <div id="left"><div id="stick"></div></div>
+ <div id="right">
+  <button class="ctrl" id="run">دویدن</button>
+  <button class="ctrl" id="act">تعامل</button>
+  <button class="ctrl" id="jump">پرش</button>
+ </div>
+ <div id="catalog">
+  <h2>🎮 دنیای بازی‌های ZENTORA</h2>
+  <p>یک ماجراجویی را انتخاب کن:</p>
+  <button onclick="setMode('sport')">⚽ دنیای ورزش</button>
+  <button onclick="setMode('business')">💰 دنیای اقتصاد</button>
+  <button onclick="setMode('world')">🌍 دنیای آزاد</button>
+  <hr>
+  <p id="catalogInfo">در این نسخه، موتور اولیه سه‌بعدی آماده است.</p>
+  <button onclick="hideCatalog()">بازگشت به بازی</button>
+ </div>
+</div>
+
+<script type="importmap">
+{
+ "imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
  }
- economy.money-=price;
- economy.stock++;
- setResult("📦 یک محصول خریدی. هزینه: "+price+" دلار");
- economyRender();
 }
-function sellStock(){
- if(economy.stock<1){
- setResult("محصولی برای فروش نداری! اول کالا بخر.");
- return;
- }
- let income=10+economy.level*3;
- economy.stock--;
- economy.money+=income;
- economy.sales++;
- setResult("🎉 محصولت را به قیمت "+income+" دلار فروختی!");
- economyRender();
-}
-function upgrade(){
- let price=20+economy.level*15;
- if(economy.money<price){
- setResult("برای ارتقا به "+price+" دلار نیاز داری.");
- return;
- }
- economy.money-=price;
- economy.level++;
- economy.upgrades++;
- setResult("🚀 کسب‌وکارت ارتقا پیدا کرد! سطح جدید: "+economy.level);
- economyRender();
-}
-function businessBonus(){
- if(economy.bonusDate===new Date().toDateString()){
- setResult("جایزه امروز را قبلاً دریافت کرده‌ای!");
- return;
- }
- economy.money+=10;
- economy.bonusDate=new Date().toDateString();
- setResult("🎁 ۱۰ دلار مجازی جایزه گرفتی!");
- economyRender();
+</script>
+
+<script type="module">
+import * as THREE from "three";
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x8ec8e8);
+scene.fog=new THREE.Fog(0x8ec8e8,35,100);
+
+const camera=new THREE.PerspectiveCamera(
+ 65,innerWidth/innerHeight,0.1,200
+);
+
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+document.body.appendChild(renderer.domElement);
+
+const ambient=new THREE.HemisphereLight(0xffffff,0x536b42,2);
+scene.add(ambient);
+
+const sun=new THREE.DirectionalLight(0xffffff,3);
+sun.position.set(-20,30,15);
+sun.castShadow=true;
+sun.shadow.mapSize.set(1024,1024);
+scene.add(sun);
+
+const mat=(color,roughness=1)=>new THREE.MeshStandardMaterial({
+ color,roughness
+});
+
+const grass=mat(0x548b43);
+const dirt=mat(0x79583d);
+const stone=mat(0x858b90);
+const wood=mat(0x79502e);
+const leaf=mat(0x327447);
+const gold=mat(0xffc52e,.3);
+const blue=mat(0x3289df);
+const white=mat(0xffffff);
+
+function cube(x,y,z,sx,sy,sz,material){
+ const obj=new THREE.Mesh(
+  new THREE.BoxGeometry(sx,sy,sz),material
+ );
+ obj.position.set(x,y,z);
+ obj.castShadow=true;
+ obj.receiveShadow=true;
+ scene.add(obj);
+ return obj;
 }
 
-render();
+// زمین
+cube(0,-.55,0,100,1,100,grass);
 
-if(games.length!==142){
- document.getElementById("count").textContent="خطا در تعداد بازی‌ها";
+// مسیر سنگی
+for(let i=-8;i<9;i++){
+ cube(0,-.015,i*2,3,.12,1.8,stone);
 }
+
+// درختان
+for(let i=0;i<55;i++){
+ let x=(Math.random()-.5)*85;
+ let z=(Math.random()-.5)*85;
+ if(Math.abs(x)<8&&Math.abs(z)<12)continue;
+ cube(x,1,z,.6,2,.6,wood);
+ let crown=cube(x,2.6,z,2.4,2.4,2.4,leaf);
+}
+
+// کوه‌های اطراف
+for(let i=0;i<20;i++){
+ let x=(Math.random()-.5)*90;
+ let z=(Math.random()-.5)*90;
+ if(Math.abs(x)<18&&Math.abs(z)<18)continue;
+ let mountain=cube(x,2,z,5+Math.random()*8,5+Math.random()*12,5+Math.random()*8,dirt);
+ mountain.rotation.y=Math.random()*2;
+}
+
+// ساختمان شهر
+function building(x,z,color){
+ cube(x,2,z,5,4,5,mat(color));
+ for(let i=0;i<3;i++){
+  for(let j=0;j<2;j++){
+   cube(x-1.5+i*1.5,2.5,z-2.56+j*4,0.55,.8,.08,blue);
+  }
+ }
+}
+building(-9,-8,0xb6a17c);
+building(9,-8,0x8b9ab5);
+building(-9,9,0xc29b77);
+building(9,9,0x9caa8b);
+
+// شخصیت مکعبی
+const player=new THREE.Group();
+scene.add(player);
+
+const body=cube(0,1,0,.85,1.1,.48,blue);
+const head=cube(0,1.85,0,.75,.75,.75,mat(0xe6b98c));
+const hair=cube(0,2.23,0,.78,.2,.78,mat(0x403329));
+const leg1=cube(-.22,.35,0,.3,.7,.35,mat(0x303a59));
+const leg2=cube(.22,.35,0,.3,.7,.35,mat(0x303a59));
+const arm1=cube(-.57,1.05,0,.23,.8,.28,mat(0xe6b98c));
+const arm2=cube(.57,1.05,0,.23,.8,.28,mat(0xe6b98c));
+
+player.add(body,head,hair,leg1,leg2,arm1,arm2);
+player.position.set(0,0,3);
+
+// سکه‌ها و هدف‌های ورزشی
+const coins=[];
+const targets=[];
+function createCoin(x,z){
+ const c=new THREE.Mesh(
+  new THREE.TorusGeometry(.42,.13,8,20),gold
+ );
+ c.position.set(x,.9,z);
+ c.castShadow=true;
+ scene.add(c);
+ coins.push(c);
+}
+function createTarget(x,z){
+ const t=new THREE.Mesh(
+  new THREE.BoxGeometry(.8,.8,.8),mat(0xe34f43)
+ );
+ t.position.set(x,.8,z);
+ t.castShadow=true;
+ scene.add(t);
+ targets.push(t);
+}
+for(let i=0;i<15;i++){
+ createCoin((Math.random()-.5)*35,(Math.random()-.5)*35);
+ createTarget((Math.random()-.5)*35,(Math.random()-.5)*35);
+}
+
+// فروشگاه
+cube(0,1.5,-17,8,3,3,mat(0x9d623b));
+cube(0,3.2,-17,9,.4,3.5,mat(0x3e4f75));
+const sign=cube(0,3.7,-15.35,4,.9,.15,gold);
+
+// وضعیت بازی
+let money=20;
+let stock=0;
+let score=0;
+let mode="world";
+let joyX=0,joyY=0;
+let jumping=false;
+let velocityY=0;
+let running=false;
+let rotating=0;
+let lastTime=0;
+
+const left=document.getElementById("left");
+const stick=document.getElementById("stick");
+
+let joystickActive=false;
+
+left.addEventListener("pointerdown",e=>{
+ joystickActive=true;
+ left.setPointerCapture(e.pointerId);
+ moveJoy(e);
+});
+left.addEventListener("pointermove",e=>{
+ if(joystickActive)moveJoy(e);
+});
+left.addEventListener("pointerup",resetJoy);
+left.addEventListener("pointercancel",resetJoy);
+
+function moveJoy(e){
+ const r=left.getBoundingClientRect();
+ let x=e.clientX-(r.left+r.width/2);
+ let y=e.clientY-(r.top+r.height/2);
+ const max=45;
+ let length=Math.hypot(x,y);
+ if(length>max){x=x/length*max;y=y/length*max;}
+ joyX=x/max;
+ joyY=y/max;
+ stick.style.left=(36+x)+"px";
+ stick.style.top=(36+y)+"px";
+}
+function resetJoy(){
+ joystickActive=false;
+ joyX=0;joyY=0;
+ stick.style.left="36px";
+ stick.style.top="36px";
+}
+
+// پرش
+document.getElementById("jump").addEventListener("pointerdown",()=>{
+ if(!jumping){
+  jumping=true;
+  velocityY=8;
+ }
+});
+
+// دویدن
+const runBtn=document.getElementById("run");
+runBtn.addEventListener("pointerdown",()=>running=true);
+runBtn.addEventListener("pointerup",()=>running=false);
+runBtn.addEventListener("pointerleave",()=>running=false);
+runBtn.addEventListener("pointercancel",()=>running=false);
+
+// برخورد با سکه
+function distance(a,b){
+ return Math.hypot(a.x-b.x,a.z-b.z);
+}
+function collect(){
+ for(let i=coins.length-1;i>=0;i--){
+  if(distance(player.position,coins[i].position)<1.6){
+   scene.remove(coins[i]);
+   coins.splice(i,1);
+   money+=1;
+   updateUI("🪙 یک سکه مجازی پیدا کردی!");
+  }
+ }
+ for(let i=targets.length-1;i>=0;i--){
+  if(distance(player.position,targets[i].position)<1.7){
+   scene.remove(targets[i]);
+   targets.splice(i,1);
+   score+=10;
+   updateUI("🏆 ۱۰ امتیاز ورزشی گرفتی!");
+  }
+ }
+}
+
+function updateUI(message){
+ document.getElementById("money").textContent="💰 "+money+" دلار";
+ document.getElementById("message").textContent=message;
+}
+
+// تعامل
+document.getElementById("act").addEventListener("pointerdown",()=>{
+ if(distance(player.position,{x:0,z:-17})<8){
+  if(mode==="business"){
+   if(stock>0){
+    stock--;
+    money+=12;
+    updateUI("🛒 کالا فروخته شد! ۱۲ دلار مجازی");
+   }else if(money>=5){
+    money-=5;
+    stock++;
+    updateUI("📦 یک کالا خریدی. حالا دوباره تعامل کن تا بفروشی.");
+   }else{
+    updateUI("برای خرید کالا پول کافی نداری.");
+   }
+  }else{
+   money+=2;
+   updateUI("🏪 از فروشگاه ۲ دلار جایزه گرفتی!");
+  }
+ }else{
+  updateUI("به فروشگاه نزدیک شو تا تعامل کنی!");
+ }
+});
+
+// کنترل صفحه کلید
+const keys={};
+window.addEventListener("keydown",e=>keys[e.key.toLowerCase()]=true);
+window.addEventListener("keyup",e=>keys[e.key.toLowerCase()]=false);
+
+// دوربین
+camera.position.set(0,5,9);
+function animate(time){
+ requestAnimationFrame(animate);
+ let dt=Math.min((time-lastTime)/1000,.05);
+ lastTime=time;
+
+ let forward=-joyY;
+ let sideways=joyX;
+
+ if(keys.w||keys.arrowup)forward=1;
+ if(keys.s||keys.arrowdown)forward=-1;
+ if(keys.a||keys.arrowleft)sideways=-1;
+ if(keys.d||keys.arrowright)sideways=1;
+
+ const speed=running?9:5;
+ let moving=Math.abs(forward)+Math.abs(sideways)>.05;
+
+ if(moving){
+  let angle=Math.atan2(sideways,forward);
+  player.rotation.y=angle;
+  player.position.x+=Math.sin(angle)*speed*dt;
+  player.position.z-=Math.cos(angle)*speed*dt;
+  leg1.rotation.x=Math.sin(time*.012)*.6;
+  leg2.rotation.x=-Math.sin(time*.012)*.6;
+ }else{
+  leg1.rotation.x=0;
+  leg2.rotation.x=0;
+ }
+
+ if(jumping){
+  player.position.y+=velocityY*dt;
+  velocityY-=19*dt;
+  if(player.position.y<=0){
+   player.position.y=0;
+   jumping=false;
+   velocityY=0;
+  }
+ }
+
+ player.position.x=THREE.MathUtils.clamp(player.position.x,-45,45);
+ player.position.z=THREE.MathUtils.clamp(player.position.z,-45,45);
+
+ collect();
+
+ // دوربین سوم‌شخص
+ const behind=new THREE.Vector3(
+  Math.sin(player.rotation.y)*7,
+  4.5,
+  Math.cos(player.rotation.y)*7
+ );
+ const targetPos=player.position.clone().add(behind);
+ camera.position.lerp(targetPos,.09);
+ camera.lookAt(player.position.x,1.5,player.position.z);
+
+ coins.forEach(c=>{c.rotation.y+=dt*2;});
+ targets.forEach(t=>{t.rotation.y+=dt;});
+
+ renderer.render(scene,camera);
+}
+animate(0);
+
+window.addEventListener("resize",()=>{
+ camera.aspect=innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
+});
+
+// منوی بازی
+window.showCatalog=()=>{
+ document.getElementById("catalog").style.display="block";
+};
+window.hideCatalog=()=>{
+ document.getElementById("catalog").style.display="none";
+};
+window.setMode=(m)=>{
+ mode=m;
+ hideCatalog();
+ if(m==="sport"){
+  updateUI("⚽ حالت ورزشی فعال شد! مکعب‌های قرمز را جمع کن.");
+ }else if(m==="business"){
+  updateUI("💰 حالت اقتصادی فعال شد! به فروشگاه برو و کالا بخر و بفروش.");
+ }else{
+  updateUI("🌍 به دنیای آزاد خوش آمدی!");
+ }
+};
 </script>
 </body>
 </html>
