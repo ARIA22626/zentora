@@ -1,2 +1,1 @@
-# zentora
-ZENTORA - Explore new worlds and games!
+# DragonStev - DragonStev Explore new worlds and games!
